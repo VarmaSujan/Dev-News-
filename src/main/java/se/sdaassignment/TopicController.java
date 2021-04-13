@@ -65,4 +65,14 @@ public class TopicController {
         topicRepository.delete(topic);
         return ResponseEntity.ok(topic);
     }
+
+    @DeleteMapping("/articles/{articleId}/topics/{topicId}") //delete the association of a topic for the given article. The topic & article themselves remain.
+    public ResponseEntity<Article> deleteArticleTopic(@PathVariable Long articleId, @PathVariable Long topicId){
+        Article article = articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+        Topic topic = topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
+        article.getTopics().remove(topic);
+        articleRepository.save(article);
+        return  ResponseEntity.ok(article);
+
+    }
 }

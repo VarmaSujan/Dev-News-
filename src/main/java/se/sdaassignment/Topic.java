@@ -1,5 +1,9 @@
 package se.sdaassignment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +16,9 @@ public class Topic {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "topics")
+    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Article> articles;
 
     public String getName() {
